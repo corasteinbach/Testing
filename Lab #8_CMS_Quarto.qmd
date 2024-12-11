@@ -1,0 +1,149 @@
+---
+title: "Lab #8"
+author: "Cora M. Steinbach"
+format: pdf
+editor: visual
+---
+
+##1. a) .1664 or 16.64% b) .0323 or 3.23%
+
+```{r}
+n_trials1 <- 10000
+same_first_last1 <- numeric(n_trials1)
+exactly_three_fours1 <- numeric(n_trials1)
+for (i in 1:n_trials1) {
+  rolls1 <- sample(1:6, 5, replace = TRUE)
+  same_first_last1[i] <- (rolls1[1] == rolls1[5])
+  exactly_three_fours1[i] <- sum(rolls1 == 4) == 3
+}
+P_first_last_same1 <- mean(same_first_last1)
+P_exactly_three_fours1 <- mean(exactly_three_fours1)
+```
+
+##2. ???? got 0 as probability
+
+```{r}
+n_trials2 <- 10000
+two_empty_boxes2 <- numeric(n_trials2)
+for (i in 1:n_trials2) {
+  boxesandballs <- sample(1:5, 5, replace = TRUE)
+numberemptyboxes2 <- sum((boxesandballs) == 0)
+two_empty_boxes2[i] <- (numberemptyboxes2 == 2)
+}
+P_two_empty_boxes2 <- mean(two_empty_boxes2)
+```
+
+```{r}
+n_trials <- 10000
+
+# Store the results for each trial
+exactly_two_empty <- numeric(n_trials)
+
+# Simulate the trials
+for (i in 1:n_trials) {
+  # Distribute 5 balls into 5 boxes (each ball randomly goes into one of the 5 boxes)
+  balls_in_boxes <- sample(1:5, 5, replace = TRUE)
+  
+  # Count how many boxes are empty (those with no balls)
+  empty_boxes <- sum(table(balls_in_boxes) == 0)
+  
+  # Check if exactly 2 boxes are empty
+  exactly_two_empty[i] <- (empty_boxes == 2)
+}
+
+# Empirical probability of exactly 2 boxes being empty
+P_exactly_two_empty <- mean(exactly_two_empty)
+```
+##3. a) .0496 or 4.96% b) .8076 or 80.76%
+
+```{r}
+n_trials3 <- 10000
+total_rainfall_less_379 <- numeric(n_trials3)
+at_least_two_below_avg <- numeric(n_trials3)
+for (i in 1:n_trials3) {
+  rainfall_10_years <- rnorm(10, mean = 40, sd = 4)  
+  total_rainfall_10_years <- sum(rainfall_10_years) 
+  total_rainfall_less_379[i] <- total_rainfall_10_years < 379.19
+  rainfall_5_years <- rnorm(5, mean = 40, sd = 4) 
+  below_average_years <- sum(rainfall_5_years < 40)
+  at_least_two_below_avg[i] <- (below_average_years >= 2) 
+}
+P_total_rainfall_less_379 <- mean(total_rainfall_less_379)
+P_at_least_two_below_avg <- mean(at_least_two_below_avg)
+```
+
+##4. .3305 or 33.05%
+
+```{r}
+n_trials4 <- 10000
+diameter_no_fits <- numeric(n_trials4)
+for (i in 1:n_trials4) {
+  diameter_of_pins <- rnorm(1, mean = 10, sd = .02)
+  opening_diameter <- rnorm(1, mean = 10.01, sd= .01)
+  diameter_no_fits[i] <- diameter_of_pins > opening_diameter
+}
+ P_diameter_no_fits <- mean(diameter_no_fits)
+```
+
+##5. .3652 or 36.52%
+
+```{r}
+n_trials5 <- 10000
+big_orange <- numeric(n_trials5)
+for (i in 1:n_trials5) {
+  valencia_oranges <- rnorm(1, mean = 4, sd= 1)
+  naval_oranges <- rnorm(1, mean = 7, sd= 2)
+  big_orange[i] <- naval_oranges > 2*valencia_oranges
+}
+P_big_orange <- mean(big_orange)
+```
+
+##6. a) 94.68 b) -\$10.63
+
+```{r}
+n_bets <- 200
+n_trials6 <- 10000
+p_red <- 18 / 38  
+X_values <- numeric(n_trials6)
+Y_values <- numeric(n_trials6)
+for (i in 1:n_trials6) {
+  bets <- rbinom(n_bets, 1, p_red)
+  X_values[i] <- sum(bets)
+  Y_values[i] <- 2 * X_values[i] - n_bets
+}
+average_X <- mean(X_values)
+average_Y <- mean(Y_values)
+```
+
+##7. a) .0675 or 6.75% b) .6193 or 61.93% c) .379 or 37.9%
+
+```{r}
+n_trials7 <- 10000
+p_no_show <- 0.1
+p_show_up <- 0.9
+first_no_show_5th <- numeric(n_trials7)
+before_10th <- numeric(n_trials7)
+after_10th <- numeric(n_trials7)
+for (i in 1:n_trials7) {
+  passengers <- rbinom(85, 1, p_show_up)
+  first_no_show_5th[i] <- sum(passengers[1:4] == 1) == 4 && passengers[5] == 0
+  before_10th[i] <- sum(passengers[1:9] == 1) == 9
+  after_10th[i] <- sum(passengers[1:9] == 1) == 9 && sum(passengers[10:85] == 0) > 0
+}
+P_first_no_show_5th <- mean(first_no_show_5th)
+P_before_10th <- mean(1- before_10th)
+P_after_10th <- mean(after_10th)
+```
+
+##8. .5091 or 50.91%
+
+```{r}
+n_trials8 <- 10000
+people <- 23
+shared_birthday <- numeric(n_trials8)
+for (i in 1:n_trials8) {
+  birthdays <- sample(1:365, people, replace = TRUE)
+  shared_birthday[i] <- length(birthdays) != length(unique(birthdays))
+}
+P_shared_birthday <- mean(shared_birthday)
+```
